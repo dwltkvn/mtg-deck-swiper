@@ -49,6 +49,7 @@ const Layout = ({ children }) => {
         borderWidth={8}
         borderStyle="solid"
         borderColor="red-600"
+        onClick={() => console.log("Touched")}
       >
         {children}
       </x.div>
