@@ -22,7 +22,10 @@ class Card extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.propDisplayImg !== this.props.propDisplayImg) {
       console.log(`Display Img ${this.position}`)
-      this.setState({ stateImg: this.imgUrl })
+      //this.setState({ stateImg: this.imgUrl })
+      fetch("https://api.scryfall.com/cards/random")
+        .then(response => response.json())
+        .then(data => this.setState({ stateImg: data.image_uris.png }))
     }
   }
 
@@ -48,7 +51,7 @@ class Card extends React.Component {
         backgroundRepeat="no-repeat"
         backgroundPosition="center"
         backgroundSize="contain"
-        style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
+        //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
       >
         {this.position}
       </x.div>
