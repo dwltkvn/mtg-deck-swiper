@@ -39,7 +39,10 @@ class Card extends React.Component {
         backgroundRepeat="no-repeat"
         backgroundPosition="center"
         backgroundSize="contain"
-      />
+        style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
+      >
+        {this.position}
+      </x.div>
     )
   }
 }
