@@ -39,14 +39,16 @@ const Layout = ({ children }) => {
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <x.div
         flexGrow={1}
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
+        display="grid"
+        gridTemplateRows={1}
+        gridTemplateColumns={1}
+        gridAutoFlow="column"
         alignItems="center"
+        justifyItems="center"
         overflow="hidden"
-        //borderWidth={8}
-        //borderStyle="solid"
-        //borderColor="indigo-600"
+        borderWidth={8}
+        borderStyle="solid"
+        borderColor="red-600"
       >
         {children}
       </x.div>
