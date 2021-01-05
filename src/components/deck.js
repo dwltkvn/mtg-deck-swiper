@@ -36,11 +36,19 @@ class Card extends React.Component {
         borderWidth={8}
         borderStyle="solid"
         borderColor="red-600"
-        //onClick={() => cardsIDs.pop()}
+        onClick={() => {
+          let stateCardsIDs = this.state.stateCardsIDs
+          stateCardsIDs.pop()
+          this.setState({ stateCardsIDs })
+          console.log(stateCardsIDs.length)
+        }}
       >
-        {
-          this.state.stateCardsIDs.map( (e,i) => <MTGCard propCardPosition={i} />)
-        }
+        {this.state.stateCardsIDs.map((e, i) => {
+          let isTopCard = i === this.state.stateCardsIDs.length - 1
+          return (
+            <MTGCard key={i} propCardPosition={i} propDisplayImg={isTopCard} />
+          )
+        })}
       </x.div>
     )
   }
