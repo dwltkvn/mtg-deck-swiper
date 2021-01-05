@@ -45,8 +45,13 @@ class Card extends React.Component {
       >
         {this.state.stateCardsIDs.map((e, i) => {
           let isTopCard = i === this.state.stateCardsIDs.length - 1
+          let isSecondTopCard = i === this.state.stateCardsIDs.length - 2
           return (
-            <MTGCard key={i} propCardPosition={i} propDisplayImg={isTopCard} />
+            <MTGCard
+              key={i}
+              propCardPosition={i}
+              propDisplayImg={isTopCard || isSecondTopCard}
+            />
           )
         })}
       </x.div>
