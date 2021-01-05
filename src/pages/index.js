@@ -4,7 +4,8 @@ import { x } from "@xstyled/styled-components"
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
-import Card from "../components/card"
+import MTGDeck from "../components/deck"
+import MTGCard from "../components/card"
 import TmpCard from "../images/template.png"
 const urls = [
   TmpCard,
@@ -16,26 +17,7 @@ const urls = [
 const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
-    {urls.map((u, i) => (
-      <x.div
-        key={i}
-        zIndex={i}
-        gridColumn="1 / 1"
-        gridRow="1 / 1"
-        h={0.99}
-        w={0.99}
-        //bg="rose-300"
-        //borderWidth={5}
-        //borderStyle="solid"
-        //borderColor="yellow-400"
-        backgroundImage={`url("${u}")`}
-        //backgroundImage={`url("${TmpCard}")`}
-        backgroundRepeat="no-repeat"
-        backgroundPosition="center"
-        backgroundSize="contain"
-      />
-    ))}
-    <Card propCardPosition={10} />
+    <MTGDeck />
   </Layout>
 )
 

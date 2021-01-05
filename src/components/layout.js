@@ -37,22 +37,7 @@ const Layout = ({ children }) => {
     <ThemeProvider theme={theme}>
       <Preflight />
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
-      <x.div
-        flexGrow={1}
-        display="grid"
-        gridTemplateRows={1}
-        gridTemplateColumns={1}
-        gridAutoFlow="column"
-        alignItems="center"
-        justifyItems="center"
-        overflow="hidden"
-        borderWidth={8}
-        borderStyle="solid"
-        borderColor="red-600"
-        onClick={() => console.log("Touched")}
-      >
-        {children}
-      </x.div>
+      {children}
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
     </ThemeProvider>
   )
