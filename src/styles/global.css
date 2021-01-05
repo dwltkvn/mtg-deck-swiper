@@ -1,0 +1,11 @@
+#___gatsby {
+  height: 100vh;
+  xborder: 5px solid red;
+}
+
+#gatsby-focus-wrapper {
+  height: 100%;
+  xborder: 5px solid blue;
+  display: flex;
+  flex-direction: column;
+}
