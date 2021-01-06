@@ -12,7 +12,11 @@ class Card extends React.Component {
     this.imgLoaded = this.imgLoaded.bind(this)
     this.name = props.propCardName
     this.position = props.propCardPosition
-    this.img = new window.Image()
+    if (typeof window !== `undefined`) {
+      this.img = new window.Image()
+    } else {
+      this.img = { onload: null, src: null, width: 0, height: 0 }
+    }
     //this.img.crossOrigin = "Anonymous"
     this.img.onload = () => {
       this.imgLoaded()
