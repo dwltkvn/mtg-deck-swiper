@@ -72,6 +72,7 @@ class Card extends React.Component {
               propCardPosition={i}
               propDisplayImg={isTopCard || isSecondTopCard}
               propCardName={e}
+              propTopCard={isTopCard}
             />
           )
         })}

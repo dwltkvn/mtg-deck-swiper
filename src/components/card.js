@@ -8,8 +8,14 @@ class Card extends React.Component {
   constructor(props) {
     super(props)
     // this.handeEvent = this.handleEvent.bind(this);
+    this.imgLoaded = this.imgLoaded.bind(this)
     this.name = props.propCardName
     this.position = props.propCardPosition
+    this.img = new Image()
+    //this.img.crossOrigin = "Anonymous"
+    this.img.onload = () => {
+      this.imgLoaded()
+    }
     this.imgUrl =
       "https://c1.scryfall.com/file/scryfall-cards/large/front/f/5/f56861a7-b664-468f-bad7-838c02530827.jpg?1541002783"
     this.state = { stateImg: this.props.propDisplayImg ? this.imgUrl : TmpCard }
@@ -29,9 +35,16 @@ class Card extends React.Component {
       //fetch("https://api.scryfall.com/cards/random")
       // DFC : .card_faces[0].image_uris.small
       fetch(
-        `https://api.scryfall.com/cards/named?exact=${encodeURI(this.name)}`
+        `https://api.scryfall.com/cards/named?exact=${encodeURI(
+          this.name
+        )}&format=image`
       )
-        .then(response => response.json())
+        .then(response => response.blob())
+        .then(blob => {
+          var objectURL = URL.createObjectURL(blob)
+          this.img.src = objectURL
+        })
+      /*.then(response => response.json())
         .then(data => {
           let stateImg = ""
 
@@ -39,11 +52,37 @@ class Card extends React.Component {
             stateImg = data.card_faces[0].image_uris.small
           else stateImg = data.image_uris.small
 
-          this.setState({ stateImg })
-        })
+          //localStorage.setItem(encodeURI(this.name), stateImg)
+          //this.setState({ stateImg })
+          this.img.src = stateImg
+        })*/
     }
   }
 
+  imgLoaded() {
+    console.log("img loaded2")
+    console.log(this.img.height)
+    console.log(this.img.width)
+    console.log(this.img)
+
+    //localStorage.setItem(encodeURI(this.name), stateImg)
+    var canvas = document.createElement("canvas")
+    canvas.width = this.img.width
+    canvas.height = this.img.height
+
+    // Copy the image contents to the canvas
+    var ctx = canvas.getContext("2d")
+    ctx.drawImage(this.img, 0, 0)
+
+    // Get the data-URL formatted image
+    // Firefox supports PNG and JPEG. You could check img.src to
+    // guess the original format, but be aware the using "image/jpg"
+    // will re-encode the image.
+    var dataURL = canvas.toDataURL("image/jpeg")
+    //console.log(dataURL)
+    localStorage.setItem(encodeURI(this.name), dataURL)
+    this.setState({ stateImg: dataURL })
+  }
   render() {
     //const {classes} = this.props;
     //const {myState} = this.state;
@@ -68,7 +107,7 @@ class Card extends React.Component {
         backgroundSize="contain"
         //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
       >
-        {this.position}
+        {this.props.propTopCard ? this.position : null}
       </x.div>
     )
   }
