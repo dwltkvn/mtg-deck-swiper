@@ -18,7 +18,10 @@ class Card extends React.Component {
     }
     this.imgUrl =
       "https://c1.scryfall.com/file/scryfall-cards/large/front/f/5/f56861a7-b664-468f-bad7-838c02530827.jpg?1541002783"
-    this.state = { stateImg: this.props.propDisplayImg ? this.imgUrl : TmpCard }
+    this.state = {
+      stateImg: this.props.propDisplayImg ? this.imgUrl : TmpCard,
+      stateLoadedFromCache: false
+    }
   }
 
   componentDidMount() {}
@@ -28,19 +31,30 @@ class Card extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.propDisplayImg !== this.props.propDisplayImg) {
       console.log(`Display Img ${this.position}`)
+
+      let localImgData = localStorage.getItem(encodeURI(this.name))
+      if (localImgData) {
+        console.log("Loaded from cache")
+        this.setState({ stateImg: localImgData, stateLoadedFromCache: true })
+        return
+      }
+
+      this.setState({ stateLoadedFromCache: false })
       console.log(
-        `https://api.scryfall.com/cards/named?exact=${encodeURI(this.name)}`
+        `https://api.scryfall.com/cards/named?exact=${encodeURI(
+          this.name
+        )}&format=image&version=normal`
       )
-      //this.setState({ stateImg: this.imgUrl })
-      //fetch("https://api.scryfall.com/cards/random")
-      // DFC : .card_faces[0].image_uris.small
       fetch(
         `https://api.scryfall.com/cards/named?exact=${encodeURI(
           this.name
-        )}&format=image`
+        )}&format=image&version=normal`
       )
-        .then(response => response.blob())
+        .then(response => {
+          return response.blob()
+        })
         .then(blob => {
+          //console.log(blob)
           var objectURL = URL.createObjectURL(blob)
           this.img.src = objectURL
         })
@@ -107,7 +121,9 @@ class Card extends React.Component {
         backgroundSize="contain"
         //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
       >
-        {this.props.propTopCard ? this.position : null}
+        {this.props.propTopCard
+          ? this.position + (this.state.stateLoadedFromCache ? "(C)" : "L")
+          : null}
       </x.div>
     )
   }
