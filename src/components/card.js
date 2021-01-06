@@ -22,10 +22,25 @@ class Card extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.propDisplayImg !== this.props.propDisplayImg) {
       console.log(`Display Img ${this.position}`)
+      console.log(
+        `https://api.scryfall.com/cards/named?exact=${encodeURI(this.name)}`
+      )
       //this.setState({ stateImg: this.imgUrl })
-      fetch("https://api.scryfall.com/cards/random")
+      //fetch("https://api.scryfall.com/cards/random")
+      // DFC : .card_faces[0].image_uris.small
+      fetch(
+        `https://api.scryfall.com/cards/named?exact=${encodeURI(this.name)}`
+      )
         .then(response => response.json())
-        .then(data => this.setState({ stateImg: data.image_uris.png }))
+        .then(data => {
+          let stateImg = ""
+
+          if (data.hasOwnProperty("card_faces"))
+            stateImg = data.card_faces[0].image_uris.small
+          else stateImg = data.image_uris.small
+
+          this.setState({ stateImg })
+        })
     }
   }
 

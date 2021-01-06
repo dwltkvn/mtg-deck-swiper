@@ -4,7 +4,27 @@ import MTGCard from "../components/card"
 
 const styles = {}
 
-const cardsIDs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+const cardsIDs = [
+  "Meren of Clan Nel Toth",
+  "Ventifact Bottle",
+  "Blood Vassal",
+  "Conqueror's Galleon",
+  "Heart Warden",
+  "Spawning Pool",
+  "Dust Bowl",
+  "Twilight Mire",
+  "The Great Henge",
+  "Songs of the Damned",
+  "Zof Consumption",
+  "Desert of the Indomitable",
+  "Eldrazi Temple",
+  "Sapseep Forest",
+  "Untaidake, the Cloud Keeper",
+  "Urza's Factory",
+  "Reliquary Tower",
+  "Evolving Wilds",
+  "Mystifying Maze"
+]
 
 class Card extends React.Component {
   constructor(props) {
@@ -51,6 +71,7 @@ class Card extends React.Component {
               key={i}
               propCardPosition={i}
               propDisplayImg={isTopCard || isSecondTopCard}
+              propCardName={e}
             />
           )
         })}
