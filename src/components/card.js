@@ -8,7 +8,7 @@ class Card extends React.Component {
   constructor(props) {
     super(props)
 
-    const isBrowser = typeof window !== undefined
+    const isBrowser = typeof window !== "undefined"
     // this.handeEvent = this.handleEvent.bind(this);
     this.imgLoaded = this.imgLoaded.bind(this)
     this.name = props.propCardName
