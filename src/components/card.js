@@ -7,11 +7,13 @@ const styles = {}
 class Card extends React.Component {
   constructor(props) {
     super(props)
+
+    const isBrowser = typeof window !== undefined
     // this.handeEvent = this.handleEvent.bind(this);
     this.imgLoaded = this.imgLoaded.bind(this)
     this.name = props.propCardName
     this.position = props.propCardPosition
-    this.img = new Image()
+    this.img = isBrowser ? new Image() : null
     //this.img.crossOrigin = "Anonymous"
     this.img.onload = () => {
       this.imgLoaded()
