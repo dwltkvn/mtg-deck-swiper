@@ -90,14 +90,63 @@ const cardsIDs = [
   "Wavebreak Hippocamp"
 ]
 
-class Card extends React.Component {
+class Deck extends React.Component {
   constructor(props) {
     super(props)
     // this.handeEvent = this.handleEvent.bind(this);
-    this.state = { stateCardsIDs: cardsIDs }
+    this.state = {
+      stateCardsIDs: cardsIDs
+    }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log("well mounted")
+    let db
+    if (!("indexedDB" in window)) {
+      console.log("This browser doesn't support IndexedDB")
+    }
+
+    var idb = window.indexedDB
+    var dbPromise = idb.open("test-db2", 9)
+
+    dbPromise.onupgradeneeded = function (event) {
+      console.log("onupgradeneeded")
+      let upgradedb = dbPromise.result
+      //event.target.result.createObjectStore("elephants")
+      upgradedb.createObjectStore("books", { keyPath: "id" })
+      //db.createObjectStore("elephants")
+    }
+
+    dbPromise.onsuccess = function () {
+      console.log("onsuccess")
+      db = dbPromise.result
+
+      let transaction = db.transaction("books", "readwrite") // (1)
+
+      // get an object store to operate on it
+      let booksOS = transaction.objectStore("books") // (2)
+
+      let book = {
+        id: "jss",
+        price: 10,
+        created: new Date()
+      }
+
+      let request = booksOS.add(book) // (3)
+
+      request.onsuccess = function () {
+        // (4)
+        console.log("Book added to the store", request.result)
+      }
+
+      request.onerror = function () {
+        console.log("Error", request.error)
+      }
+      //db.createObjectStore("elephants")
+      //
+      //var transaction = db.transaction(["elephants"], IDBTransaction.READ_WRITE)
+    }
+  }
 
   componentWillUnmount() {}
 
@@ -146,4 +195,4 @@ class Card extends React.Component {
   }
 }
 
-export default Card
+export default Deck
