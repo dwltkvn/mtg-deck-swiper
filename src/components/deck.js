@@ -1,4 +1,5 @@
 import React from "react"
+import * as idb from "idb"
 import { x } from "@xstyled/styled-components"
 import MTGCard from "../components/card"
 
@@ -101,51 +102,44 @@ class Deck extends React.Component {
 
   componentDidMount() {
     console.log("well mounted")
-    let db
+
     if (!("indexedDB" in window)) {
       console.log("This browser doesn't support IndexedDB")
     }
 
-    var idb = window.indexedDB
-    var dbPromise = idb.open("test-db2", 9)
-
-    dbPromise.onupgradeneeded = function (event) {
-      console.log("onupgradeneeded")
-      let upgradedb = dbPromise.result
-      //event.target.result.createObjectStore("elephants")
-      upgradedb.createObjectStore("books", { keyPath: "id" })
-      //db.createObjectStore("elephants")
-    }
-
-    dbPromise.onsuccess = function () {
-      console.log("onsuccess")
-      db = dbPromise.result
-
-      let transaction = db.transaction("books", "readwrite") // (1)
-
-      // get an object store to operate on it
-      let booksOS = transaction.objectStore("books") // (2)
-
-      let book = {
-        id: "jss",
-        price: 10,
-        created: new Date()
+    var dbPromise = idb.openDB("test-db5", 4, {
+      upgrade(db, oldVersion, newVersion, transaction) {
+        console.log("create OS")
+        db.createObjectStore("books", { keyPath: "id" })
+      },
+      blocked() {
+        // …
+      },
+      blocking() {
+        // …
+      },
+      terminated() {
+        // …
       }
+    })
 
-      let request = booksOS.add(book) // (3)
-
-      request.onsuccess = function () {
-        // (4)
-        console.log("Book added to the store", request.result)
-      }
-
-      request.onerror = function () {
-        console.log("Error", request.error)
-      }
-      //db.createObjectStore("elephants")
-      //
-      //var transaction = db.transaction(["elephants"], IDBTransaction.READ_WRITE)
-    }
+    dbPromise
+      .then(function (db) {
+        var tx = db.transaction("books", "readwrite")
+        var store = tx.objectStore("books")
+        var item = {
+          id: 7,
+          name: "sandwich",
+          price: 4.99,
+          description: "A very tasty sandwich",
+          created: new Date().getTime()
+        }
+        store.add(item)
+        return tx.complete
+      })
+      .then(function () {
+        console.log("added item to the store os!")
+      })
   }
 
   componentWillUnmount() {}
