@@ -94,7 +94,10 @@ const cardsIDs = [
 class Deck extends React.Component {
   constructor(props) {
     super(props)
+    this.database = null
     // this.handeEvent = this.handleEvent.bind(this);
+    this.addtoScryFallCache = this.addtoScryFallCache.bind(this)
+    this.getFromScryFallCache = this.getFromScryFallCache.bind(this)
     this.state = {
       stateCardsIDs: cardsIDs
     }
@@ -105,11 +108,12 @@ class Deck extends React.Component {
 
     if (!("indexedDB" in window)) {
       console.log("This browser doesn't support IndexedDB")
+      return
     }
 
-    var dbPromise = idb.openDB("test-db5", 4, {
+    this.database = idb.openDB("scryfallCache", 1, {
       upgrade(db, oldVersion, newVersion, transaction) {
-        console.log("create OS")
+        console.log("create Scryfall Cache DB")
         db.createObjectStore("books", { keyPath: "id" })
       },
       blocked() {
@@ -122,8 +126,47 @@ class Deck extends React.Component {
         // …
       }
     })
+  }
 
-    dbPromise
+  componentWillUnmount() {}
+
+  getFromScryFallCache(uid) {
+    console.log("get from scry fall cache " + uid + "///")
+    //return false
+
+    this.database.then(db => {
+      var tx = db.transaction("books", "readonly")
+      var store = tx.objectStore("books")
+      var res = store.get(uid)
+      console.log(res)
+      return new Promise(res)
+    })
+    /*.then(res => {
+        console.log("get scryfall:" + res)
+        //var imgURL = URL.createObjectURL(res)
+        //console.log(imgURL)
+        console.log(res.id)
+
+        return res
+      })*/
+  }
+
+  addtoScryFallCache(uid, blob) {
+    this.database
+      .then(db => {
+        const tx = db.transaction("books", "readwrite")
+        var store = tx.objectStore("books")
+        var item = {
+          id: uid,
+          data: blob,
+          created: new Date().getTime()
+        }
+        store.add(item)
+        return tx.complete
+      })
+      .then(() => console.log("added item to the store os!"))
+    /*
+dbPromise
       .then(function (db) {
         var tx = db.transaction("books", "readwrite")
         var store = tx.objectStore("books")
@@ -140,10 +183,8 @@ class Deck extends React.Component {
       .then(function () {
         console.log("added item to the store os!")
       })
+    */
   }
-
-  componentWillUnmount() {}
-
   render() {
     //const {classes} = this.props;
     //const {myState} = this.state;
@@ -181,6 +222,9 @@ class Deck extends React.Component {
               propDisplayImg={isTopCard || isSecondTopCard}
               propCardName={e}
               propTopCard={isTopCard}
+              cbAddToDB={this.addtoScryFallCache}
+              cbGetFromDB={this.getFromScryFallCache}
+              propDatabase={this.database}
             />
           )
         })}

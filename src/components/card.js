@@ -34,32 +34,42 @@ class Card extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.propDisplayImg !== this.props.propDisplayImg) {
-      console.log(`Display Img ${this.position}`)
-
-      console.log(
-        `https://api.scryfall.com/cards/named?exact=${encodeURI(
-          this.name
-        )}&format=image&version=normal`
-      )
-      fetch(
-        `https://api.scryfall.com/cards/named?exact=${encodeURI(
-          this.name
-        )}&format=image&version=normal`
-      )
-        .then(response => response.blob())
-        .then(blob => {
-          var objectURL = URL.createObjectURL(blob)
-          this.img.src = objectURL // will trigger imgLoaded()
+      this.props.propDatabase
+        .then(db => {
+          var tx = db.transaction("books", "readonly")
+          var store = tx.objectStore("books")
+          var res = store.get(this.name)
+          return res
+        })
+        .then(json => {
+          if (json) {
+            var objectURL = URL.createObjectURL(json.data)
+            this.img.src = objectURL // will trigger imgLoaded()
+            this.setState({ stateLoadedFromCache: true })
+          } else {
+            console.log(
+              `https://api.scryfall.com/cards/named?exact=${encodeURI(
+                this.name
+              )}&format=image&version=normal`
+            )
+            fetch(
+              `https://api.scryfall.com/cards/named?exact=${encodeURI(
+                this.name
+              )}&format=image&version=normal`
+            )
+              .then(response => response.blob())
+              .then(blob => {
+                this.props.cbAddToDB(this.name, blob)
+                var objectURL = URL.createObjectURL(blob)
+                this.img.src = objectURL // will trigger imgLoaded()
+              })
+            this.setState({ stateLoadedFromCache: false })
+          }
         })
     }
   }
 
   imgLoaded() {
-    console.log("img loaded2")
-    console.log(this.img.height)
-    console.log(this.img.width)
-    console.log(this.img)
-
     //localStorage.setItem(encodeURI(this.name), stateImg)
     var canvas = document.createElement("canvas")
     canvas.width = this.img.width
@@ -68,14 +78,7 @@ class Card extends React.Component {
     // Copy the image contents to the canvas
     var ctx = canvas.getContext("2d")
     ctx.drawImage(this.img, 0, 0)
-
-    // Get the data-URL formatted image
-    // Firefox supports PNG and JPEG. You could check img.src to
-    // guess the original format, but be aware the using "image/jpg"
-    // will re-encode the image.
     var dataURL = canvas.toDataURL("image/jpeg")
-    //console.log(dataURL)
-    //localStorage.setItem(encodeURI(this.name), dataURL)
     this.setState({ stateImg: dataURL })
   }
 
@@ -103,7 +106,11 @@ class Card extends React.Component {
         backgroundSize="contain"
         //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
       >
-        {this.props.propTopCard ? this.position : null}
+        {this.props.propTopCard
+          ? this.state.stateLoadedFromCache
+            ? "C:" + this.position
+            : this.position
+          : null}
       </x.div>
     )
   }
