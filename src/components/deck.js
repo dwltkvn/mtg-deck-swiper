@@ -97,7 +97,8 @@ class Deck extends React.Component {
     this.database = null
     // this.handeEvent = this.handleEvent.bind(this);
     this.state = {
-      stateCardsIDs: cardsIDs
+      stateCardsIDs: cardsIDs,
+      stateDatabaseOpened: false
     }
   }
 
@@ -124,9 +125,18 @@ class Deck extends React.Component {
         // …
       }
     })
+
+    // state when db is opened
+    this.database.then(db => {
+      this.setState({ stateDatabaseOpened: true })
+    })
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    if (this.database) {
+      this.database.close()
+    }
+  }
 
   render() {
     //const {classes} = this.props;
@@ -147,7 +157,7 @@ class Deck extends React.Component {
         //borderWidth={8}
         //borderStyle="solid"
         //borderColor="red-600"
-        bg="blue-gray-500"
+        bg="white-500"
         onClick={() => {
           let stateCardsIDs = this.state.stateCardsIDs
           stateCardsIDs.pop()
@@ -155,20 +165,22 @@ class Deck extends React.Component {
           console.log(stateCardsIDs.length)
         }}
       >
-        {this.state.stateCardsIDs.map((e, i) => {
-          let isTopCard = i === this.state.stateCardsIDs.length - 1
-          let isSecondTopCard = i === this.state.stateCardsIDs.length - 2
-          return (
-            <MTGCard
-              key={i}
-              propCardPosition={i}
-              propDisplayImg={isTopCard || isSecondTopCard}
-              propCardName={e}
-              propTopCard={isTopCard}
-              propDatabase={this.database}
-            />
-          )
-        })}
+        {this.state.stateDatabaseOpened &&
+          this.state.stateCardsIDs.map((e, i) => {
+            let isTopCard = i === this.state.stateCardsIDs.length - 1
+            let isSecondTopCard = i === this.state.stateCardsIDs.length - 2
+            if (i < this.state.stateCardsIDs.length - 2) return null
+            return (
+              <MTGCard
+                key={i}
+                propCardPosition={i}
+                propDisplayImg={isTopCard || isSecondTopCard}
+                propCardName={e}
+                propTopCard={isTopCard}
+                propDatabase={this.database}
+              />
+            )
+          })}
       </x.div>
     )
   }

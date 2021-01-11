@@ -9,6 +9,9 @@ class Card extends React.Component {
     super(props)
 
     // this.handeEvent = this.handleEvent.bind(this);
+    this.fetchImg = this.fetchImg.bind(this)
+    this.imgLoaded = this.imgLoaded.bind(this)
+
     if (typeof window !== `undefined`) {
       this.img = new window.Image()
     } else {
@@ -19,6 +22,7 @@ class Card extends React.Component {
     }
     this.name = props.propCardName
     this.position = props.propCardPosition
+    this.objectURL = null
 
     this.imgUrl =
       "https://c1.scryfall.com/file/scryfall-cards/large/front/f/5/f56861a7-b664-468f-bad7-838c02530827.jpg?1541002783"
@@ -29,61 +33,69 @@ class Card extends React.Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.props.propDisplayImg) this.fetchImg()
+  }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    if (this.objectURL) URL.revokeObjectURL(this.objectURL)
+  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.propDisplayImg !== this.props.propDisplayImg) {
-      this.props.propDatabase
-        .then(db => {
-          var tx = db.transaction("books", "readonly")
-          var store = tx.objectStore("books")
-          var res = store.get(this.name)
-          return res
-        })
-        .then(json => {
-          if (json) {
-            var objectURL = URL.createObjectURL(json.data)
-            this.img.src = objectURL // will trigger imgLoaded()
-            this.setState({ stateLoadedFromCache: true })
-          } else {
-            console.log(
-              `https://api.scryfall.com/cards/named?exact=${encodeURI(
-                this.name
-              )}&format=image&version=normal`
-            )
-            fetch(
-              `https://api.scryfall.com/cards/named?exact=${encodeURI(
-                this.name
-              )}&format=image&version=normal`
-            )
-              .then(response => response.blob())
-              .then(blob => {
-                //this.props.cbAddToDB(this.name, blob)
-                this.props.propDatabase
-                  .then(db => {
-                    const tx = db.transaction("books", "readwrite")
-                    var store = tx.objectStore("books")
-                    var item = {
-                      id: this.name,
-                      data: blob,
-                      created: new Date().getTime()
-                    }
-                    store.add(item)
-                    return tx.complete
-                  })
-                  .then(() => {
-                    console.log("added item to the store os " + this.name)
-                    this.setState({ stateSavedToCache: true })
-                  })
-                var objectURL = URL.createObjectURL(blob)
-                this.img.src = objectURL // will trigger imgLoaded()
-              })
-            this.setState({ stateLoadedFromCache: false })
-          }
-        })
+      this.fetchImg()
     }
+  }
+
+  fetchImg() {
+    this.props.propDatabase
+      .then(db => {
+        var tx = db.transaction("books", "readonly")
+        var store = tx.objectStore("books")
+        var res = store.get(this.name)
+        return res
+      })
+      .then(json => {
+        if (json) {
+          this.objectURL = URL.createObjectURL(json.data)
+          this.img.src = this.objectURL // will trigger imgLoaded()
+          this.setState({ stateLoadedFromCache: true })
+        } else {
+          console.log(
+            `https://api.scryfall.com/cards/named?exact=${encodeURI(
+              this.name
+            )}&format=image&version=normal`
+          )
+          fetch(
+            `https://api.scryfall.com/cards/named?exact=${encodeURI(
+              this.name
+            )}&format=image&version=normal`
+          )
+            .then(response => response.blob())
+            .then(blob => {
+              //this.props.cbAddToDB(this.name, blob)
+              this.props.propDatabase
+                .then(db => {
+                  const tx = db.transaction("books", "readwrite")
+                  var store = tx.objectStore("books")
+                  var item = {
+                    id: this.name,
+                    data: blob,
+                    created: new Date().getTime()
+                  }
+                  store.add(item)
+                  return tx.complete
+                })
+                .then(() => {
+                  console.log("added item to the store os " + this.name)
+                  this.setState({ stateSavedToCache: true })
+                })
+              this.objectURL = URL.createObjectURL(blob)
+              this.img.src = this.objectURL // will trigger imgLoaded()
+            })
+          this.setState({ stateLoadedFromCache: false })
+        }
+      })
   }
 
   imgLoaded() {
