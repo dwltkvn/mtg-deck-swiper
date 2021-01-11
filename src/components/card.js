@@ -24,7 +24,8 @@ class Card extends React.Component {
       "https://c1.scryfall.com/file/scryfall-cards/large/front/f/5/f56861a7-b664-468f-bad7-838c02530827.jpg?1541002783"
     this.state = {
       stateImg: this.props.propDisplayImg ? this.imgUrl : TmpCard,
-      stateLoadedFromCache: false
+      stateLoadedFromCache: false,
+      stateSavedToCache: false
     }
   }
 
@@ -59,7 +60,23 @@ class Card extends React.Component {
             )
               .then(response => response.blob())
               .then(blob => {
-                this.props.cbAddToDB(this.name, blob)
+                //this.props.cbAddToDB(this.name, blob)
+                this.props.propDatabase
+                  .then(db => {
+                    const tx = db.transaction("books", "readwrite")
+                    var store = tx.objectStore("books")
+                    var item = {
+                      id: this.name,
+                      data: blob,
+                      created: new Date().getTime()
+                    }
+                    store.add(item)
+                    return tx.complete
+                  })
+                  .then(() => {
+                    console.log("added item to the store os " + this.name)
+                    this.setState({ stateSavedToCache: true })
+                  })
                 var objectURL = URL.createObjectURL(blob)
                 this.img.src = objectURL // will trigger imgLoaded()
               })
@@ -106,11 +123,9 @@ class Card extends React.Component {
         backgroundSize="contain"
         //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
       >
-        {this.props.propTopCard
-          ? this.state.stateLoadedFromCache
-            ? "C:" + this.position
-            : this.position
-          : null}
+        {this.props.propTopCard && this.state.stateLoadedFromCache ? "L " : ""}
+        {this.props.propTopCard ? this.position : null}
+        {this.props.propTopCard && this.state.stateSavedToCache ? " S" : ""}
       </x.div>
     )
   }
