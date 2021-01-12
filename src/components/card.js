@@ -122,15 +122,16 @@ class Card extends React.Component {
     const duration = 300
 
     const defaultStyle = {
-      transition: `opacity ${duration}ms ease-in-out`,
-      opacity: 0.0
+      transition: `all ${duration}ms ease-in-out`,
+      opacity: 0.0,
+      transform: "translate(0)"
     }
 
     const transitionStyles = {
-      entering: { opacity: 1 },
-      entered: { opacity: 1 },
-      exiting: { opacity: 0.0 },
-      exited: { opacity: 0.0 }
+      entering: { opacity: 1.0, transform: "translate(0)" },
+      entered: { opacity: 1.0, transform: "translate(0)" },
+      exiting: { opacity: 0.0, transform: "translate(-10%)" },
+      exited: { opacity: 0.0, transform: "translate(-10%)" }
     }
 
     return (
