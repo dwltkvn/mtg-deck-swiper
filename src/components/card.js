@@ -30,7 +30,8 @@ class Card extends React.Component {
     this.state = {
       stateImg: this.props.propDisplayImg ? this.imgUrl : TmpCard,
       stateLoadedFromCache: false,
-      stateSavedToCache: false
+      stateSavedToCache: false,
+      stateNotClickedYet: true
     }
   }
 
@@ -118,18 +119,18 @@ class Card extends React.Component {
     //const { propMounted, propDefaultCardName, propUserName } = this.props
     const classes = styles
 
-    const duration = 3000
+    const duration = 300
 
     const defaultStyle = {
       transition: `opacity ${duration}ms ease-in-out`,
-      opacity: 0
+      opacity: 0.0
     }
 
     const transitionStyles = {
       entering: { opacity: 1 },
       entered: { opacity: 1 },
-      exiting: { opacity: 0 },
-      exited: { opacity: 0 }
+      exiting: { opacity: 0.0 },
+      exited: { opacity: 0.0 }
     }
 
     return (
@@ -140,7 +141,11 @@ class Card extends React.Component {
         h={0.99}
         w={0.99}
       >
-        <Transition in={this.props.propTopCard} timeout={duration}>
+        <Transition
+          in={this.props.propDisplayImg && this.state.stateNotClickedYet}
+          timeout={duration}
+          onExited={() => this.props.cbOnCardClicked(this.position)}
+        >
           {state => (
             <x.div
               h={1}
@@ -159,7 +164,10 @@ class Card extends React.Component {
                 ...transitionStyles[state]
               }}
               //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
-              onClick={() => this.props.cbOnCardClicked(this.position)}
+              onClick={() => {
+                //this.props.cbOnCardClicked(this.position)
+                this.setState({ stateNotClickedYet: false })
+              }}
             >
               {this.props.propTopCard && this.state.stateLoadedFromCache
                 ? "L "
