@@ -124,21 +124,28 @@ class Card extends React.Component {
         gridRow="1 / 1"
         h={0.99}
         w={0.99}
-        //bg="rose-300"
-        //borderWidth={5}
-        //borderStyle="solid"
-        //borderColor="yellow-400"
-        backgroundImage={`url("${this.state.stateImg}")`}
-        //backgroundImage={`url("${TmpCard}")`}
-        backgroundRepeat="no-repeat"
-        backgroundPosition="center"
-        backgroundSize="contain"
-        //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
-        onClick={() => this.props.cbOnCardClicked(this.position)}
       >
-        {this.props.propTopCard && this.state.stateLoadedFromCache ? "L " : ""}
-        {this.props.propTopCard ? this.position : null}
-        {this.props.propTopCard && this.state.stateSavedToCache ? " S" : ""}
+        <x.div
+          h={1}
+          w={1}
+          //bg="rose-300"
+          //borderWidth={5}
+          //borderStyle="solid"
+          //borderColor="yellow-400"
+          backgroundImage={`url("${this.state.stateImg}")`}
+          //backgroundImage={`url("${TmpCard}")`}
+          backgroundRepeat="no-repeat"
+          backgroundPosition="center"
+          backgroundSize="contain"
+          //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
+          onClick={() => this.props.cbOnCardClicked(this.position)}
+        >
+          {this.props.propTopCard && this.state.stateLoadedFromCache
+            ? "L "
+            : ""}
+          {this.props.propTopCard ? this.position : null}
+          {this.props.propTopCard && this.state.stateSavedToCache ? " S" : ""}
+        </x.div>
       </x.div>
     )
   }
