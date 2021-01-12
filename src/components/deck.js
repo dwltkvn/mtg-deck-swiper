@@ -176,7 +176,7 @@ class Deck extends React.Component {
     return (
       <x.div
         flexGrow={1}
-        display="grid"
+        display="flex"
         gridTemplateRows={1}
         gridTemplateColumns={1}
         gridAutoFlow="column"

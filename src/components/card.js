@@ -1,6 +1,7 @@
 import React from "react"
 import { x } from "@xstyled/styled-components"
 import TmpCard from "../images/template.png"
+import { Transition } from "react-transition-group"
 
 const styles = {}
 
@@ -117,6 +118,20 @@ class Card extends React.Component {
     //const { propMounted, propDefaultCardName, propUserName } = this.props
     const classes = styles
 
+    const duration = 3000
+
+    const defaultStyle = {
+      transition: `opacity ${duration}ms ease-in-out`,
+      opacity: 0
+    }
+
+    const transitionStyles = {
+      entering: { opacity: 1 },
+      entered: { opacity: 1 },
+      exiting: { opacity: 0 },
+      exited: { opacity: 0 }
+    }
+
     return (
       <x.div
         zIndex={this.position}
@@ -125,27 +140,37 @@ class Card extends React.Component {
         h={0.99}
         w={0.99}
       >
-        <x.div
-          h={1}
-          w={1}
-          //bg="rose-300"
-          //borderWidth={5}
-          //borderStyle="solid"
-          //borderColor="yellow-400"
-          backgroundImage={`url("${this.state.stateImg}")`}
-          //backgroundImage={`url("${TmpCard}")`}
-          backgroundRepeat="no-repeat"
-          backgroundPosition="center"
-          backgroundSize="contain"
-          //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
-          onClick={() => this.props.cbOnCardClicked(this.position)}
-        >
-          {this.props.propTopCard && this.state.stateLoadedFromCache
-            ? "L "
-            : ""}
-          {this.props.propTopCard ? this.position : null}
-          {this.props.propTopCard && this.state.stateSavedToCache ? " S" : ""}
-        </x.div>
+        <Transition in={this.props.propTopCard} timeout={duration}>
+          {state => (
+            <x.div
+              h={1}
+              w={1}
+              //bg="rose-300"
+              //borderWidth={5}
+              //borderStyle="solid"
+              //borderColor="yellow-400"
+              backgroundImage={`url("${this.state.stateImg}")`}
+              //backgroundImage={`url("${TmpCard}")`}
+              backgroundRepeat="no-repeat"
+              backgroundPosition="center"
+              backgroundSize="contain"
+              style={{
+                ...defaultStyle,
+                ...transitionStyles[state]
+              }}
+              //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
+              onClick={() => this.props.cbOnCardClicked(this.position)}
+            >
+              {this.props.propTopCard && this.state.stateLoadedFromCache
+                ? "L "
+                : ""}
+              {this.props.propTopCard ? this.position : null}
+              {this.props.propTopCard && this.state.stateSavedToCache
+                ? " S"
+                : ""}
+            </x.div>
+          )}
+        </Transition>
       </x.div>
     )
   }
