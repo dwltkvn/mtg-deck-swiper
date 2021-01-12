@@ -134,6 +134,7 @@ class Card extends React.Component {
         backgroundPosition="center"
         backgroundSize="contain"
         //style={{ filter: `invert(${(this.position % 4) * 20}%)` }}
+        onClick={() => this.props.cbOnCardClicked(this.position)}
       >
         {this.props.propTopCard && this.state.stateLoadedFromCache ? "L " : ""}
         {this.props.propTopCard ? this.position : null}

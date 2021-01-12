@@ -96,6 +96,7 @@ class Deck extends React.Component {
     super(props)
     this.database = null
     // this.handeEvent = this.handleEvent.bind(this);
+    this.removeCard = this.removeCard.bind(this)
     this.state = {
       stateCardsIDs: cardsIDs,
       stateDatabaseOpened: false
@@ -159,6 +160,13 @@ class Deck extends React.Component {
     return array
   }
 
+  removeCard(i) {
+    let stateCardsIDs = this.state.stateCardsIDs
+    stateCardsIDs.pop()
+    this.setState({ stateCardsIDs })
+    console.log(stateCardsIDs.length)
+  }
+
   render() {
     //const {classes} = this.props;
     //const {myState} = this.state;
@@ -179,12 +187,6 @@ class Deck extends React.Component {
         //borderStyle="solid"
         //borderColor="red-600"
         bg="white-500"
-        onClick={() => {
-          let stateCardsIDs = this.state.stateCardsIDs
-          stateCardsIDs.pop()
-          this.setState({ stateCardsIDs })
-          console.log(stateCardsIDs.length)
-        }}
       >
         {this.state.stateDatabaseOpened &&
           this.state.stateCardsIDs.map((e, i) => {
@@ -199,6 +201,7 @@ class Deck extends React.Component {
                 propCardName={e}
                 propTopCard={isTopCard}
                 propDatabase={this.database}
+                cbOnCardClicked={i => this.removeCard(i)}
               />
             )
           })}
