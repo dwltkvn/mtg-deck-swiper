@@ -5,92 +5,6 @@ import MTGCard from "../components/card"
 
 const styles = {}
 
-const cardsIDs = [
-  "Aetherize",
-  "Ashiok's Erasure",
-  "Bad River",
-  "Baleful Strix",
-  "Blessing of Leeches",
-  "Brainstorm",
-  "Brineborn Cutthroat",
-  "Castle Locthwain",
-  "Chemister's Insight",
-  "Clearwater Pathway / Murkwater Pathway",
-  "Counterspell",
-  "Creeping Tar Pit",
-  "Crystal Shard",
-  "Cunning Nightbonder",
-  "Darkslick Shores",
-  "Darkwater Catacombs",
-  "Draining Whelk",
-  "Dream Eater",
-  "Essence Scatter",
-  "Evacuation",
-  "Fabled Passage",
-  "Fact or Fiction",
-  "Force of Despair",
-  "Frantic Search",
-  "Glasspool Mimic / Glasspool Shore",
-  "Go for the Throat",
-  "Heartless Act",
-  "Island",
-  "Isochron Scepter",
-  "Jwari Disruption / Jwari Ruins",
-  "Languish",
-  "Liliana's Standard Bearer",
-  "Lochmere Serpent",
-  "Malakir Rebirth / Malakir Mire",
-  "Merfolk Trickster",
-  "Midnight Clock",
-  "Mission Briefing",
-  "Mizzium Meddler",
-  "Murderous Rider / Swift End",
-  "Mystic Sanctuary",
-  "Mystical Teachings",
-  "Naiad of Hidden Coves",
-  "Narset's Reversal",
-  "Negate",
-  "Nimble Obstructionist",
-  "Notion Thief",
-  "Nymris, Oona's Trickster",
-  "Omen of the Dead",
-  "Omen of the Sea",
-  "Pearl Lake Ancient",
-  "Pelakka Predation / Pelakka Caverns",
-  "Phyrexian Reclamation",
-  "Pongify",
-  "Quickling",
-  "Reality Shift",
-  "Reliquary Tower",
-  "Rewind",
-  "Run Away Together",
-  "Runechanter's Pike",
-  "Sea Gate Restoration / Sea Gate, Reborn",
-  "Silundi Vision / Silundi Isle",
-  "Slitherwisp",
-  "Soul Manipulation",
-  "Spectral Sailor",
-  "Spite / Malice",
-  "Stitch Together",
-  "Stunt Double",
-  "Sublime Epiphany",
-  "Sunken Hollow",
-  "Sunken Ruins",
-  "Swamp",
-  "Tainted Isle",
-  "Talrand, Sky Summoner",
-  "Temple of Deceit",
-  "The Magic Mirror",
-  "Thought Vessel",
-  "Thryx, the Sudden Storm",
-  "Tyrant's Scorn",
-  "Underground River",
-  "Voidmage Husher",
-  "Voracious Greatshark",
-  "Watery Grave",
-  "Wavebreak Hippocamp"
-]
-
 class Deck extends React.Component {
   constructor(props) {
     super(props)
@@ -98,7 +12,7 @@ class Deck extends React.Component {
     // this.handeEvent = this.handleEvent.bind(this);
     this.removeCard = this.removeCard.bind(this)
     this.state = {
-      stateCardsIDs: cardsIDs,
+      stateCardsIDs: this.props.propDeckList.split("\n"),
       stateDatabaseOpened: false
     }
   }
@@ -106,7 +20,9 @@ class Deck extends React.Component {
   componentDidMount() {
     console.log("well mounted")
 
-    this.setState({ stateCardsIDs: this.shuffle(cardsIDs) })
+    /*this.setState({
+      stateCardsIDs: this.shuffle(this.props.propDeckList.split("\n"))
+    })*/
     if (!("indexedDB" in window)) {
       console.log("This browser doesn't support IndexedDB")
       return

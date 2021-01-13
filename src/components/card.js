@@ -122,7 +122,7 @@ class Card extends React.Component {
     const duration = 500
 
     const defaultStyle = {
-      transition: `all ${duration}ms ease-in-out`,
+      transition: `all ${duration}ms ease-in`,
       opacity: 1.0,
       transform: "translate(0,0)"
     }
