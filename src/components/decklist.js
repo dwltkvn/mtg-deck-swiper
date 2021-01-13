@@ -95,7 +95,7 @@ class DeckList extends React.Component {
     // this.handeEvent = this.handleEvent.bind(this);
     this.onDeckListChange = this.onDeckListChange.bind(this)
     this.state = {}
-    this.deckList = ""
+    this.deckList = cardsIDs.join("\n")
   }
 
   componentDidMount() {}
