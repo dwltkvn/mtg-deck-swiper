@@ -93,12 +93,20 @@ class DeckList extends React.Component {
   constructor(props) {
     super(props)
     // this.handeEvent = this.handleEvent.bind(this);
+    this.onDeckListChange = this.onDeckListChange.bind(this)
     this.state = {}
+    this.deckList = ""
   }
 
   componentDidMount() {}
 
   componentWillUnmount() {}
+
+  onDeckListChange(event) {
+    this.deckList = event.target.value
+    this.deckList = this.deckList.replaceAll("1 ", "")
+    console.log(this.deckList)
+  }
 
   render() {
     //const {classes} = this.props;
@@ -113,10 +121,11 @@ class DeckList extends React.Component {
             defaultValue={cardsIDs.join("\n")}
             style={{ height: "100%", width: "100%" }}
             h={1}
+            onChange={this.onDeckListChange}
           ></textarea>
         </x.div>
         <x.div p={8} display="flex" justifyContent="space-around">
-          <button onClick={() => this.props.cbSetDeckList(cardsIDs.join("\n"))}>
+          <button onClick={() => this.props.cbSetDeckList(this.deckList)}>
             OK
           </button>
           <button>Clear</button>

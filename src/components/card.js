@@ -164,6 +164,7 @@ class Card extends React.Component {
               backgroundPosition="center"
               backgroundSize="contain"
               userSelect="none"
+              color="red-500"
               style={{
                 ...defaultStyle,
                 ...transitionStyles[state]
@@ -177,10 +178,12 @@ class Card extends React.Component {
               {this.props.propTopCard && this.state.stateLoadedFromCache
                 ? "L "
                 : ""}
-              {this.props.propTopCard ? this.position : null}
               {this.props.propTopCard && this.state.stateSavedToCache
                 ? " S"
                 : ""}
+              {this.props.propTopCard
+                ? `${this.position}: ${this.props.propCardName}`
+                : null}
             </x.div>
           )}
         </Transition>

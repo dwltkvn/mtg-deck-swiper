@@ -20,9 +20,9 @@ class Deck extends React.Component {
   componentDidMount() {
     console.log("well mounted")
 
-    /*this.setState({
+    this.setState({
       stateCardsIDs: this.shuffle(this.props.propDeckList.split("\n"))
-    })*/
+    })
     if (!("indexedDB" in window)) {
       console.log("This browser doesn't support IndexedDB")
       return
