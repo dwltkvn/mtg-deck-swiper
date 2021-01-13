@@ -165,6 +165,7 @@ class Card extends React.Component {
               backgroundSize="contain"
               userSelect="none"
               color="red-500"
+              fontSize="xs"
               style={{
                 ...defaultStyle,
                 ...transitionStyles[state]

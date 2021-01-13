@@ -108,7 +108,7 @@ class Deck extends React.Component {
           this.state.stateCardsIDs.map((e, i) => {
             let isTopCard = i === this.state.stateCardsIDs.length - 1
             let isSecondTopCard = i === this.state.stateCardsIDs.length - 2
-            if (i < this.state.stateCardsIDs.length - 4) return null
+            if (i < this.state.stateCardsIDs.length - 2) return null
             return (
               <MTGCard
                 key={i}

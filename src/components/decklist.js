@@ -94,7 +94,9 @@ class DeckList extends React.Component {
     super(props)
     // this.handeEvent = this.handleEvent.bind(this);
     this.onDeckListChange = this.onDeckListChange.bind(this)
-    this.state = {}
+    this.state = {
+      stateDeckList: cardsIDs.join("\n")
+    }
     this.deckList = cardsIDs.join("\n")
   }
 
@@ -105,7 +107,6 @@ class DeckList extends React.Component {
   onDeckListChange(event) {
     this.deckList = event.target.value
     this.deckList = this.deckList.replaceAll("1 ", "")
-    console.log(this.deckList)
   }
 
   render() {
@@ -117,19 +118,51 @@ class DeckList extends React.Component {
     return (
       <x.div h={1} display="flex" flexDirection="column">
         <x.div h={1} p={8}>
-          <textarea
-            defaultValue={cardsIDs.join("\n")}
-            style={{ height: "100%", width: "100%" }}
+          <x.textarea
+            value={this.state.stateDeckList}
+            //style={{ height: "100%", width: "100%", resize: "none" }}
             h={1}
+            w={1}
+            border={2}
+            borderColor="black-600"
+            borderRadius="md"
+            resize="none"
             onChange={this.onDeckListChange}
-          ></textarea>
+          ></x.textarea>
         </x.div>
         <x.div p={8} display="flex" justifyContent="space-around">
-          <button onClick={() => this.props.cbSetDeckList(this.deckList)}>
+          <x.button
+            p={2}
+            bg="gray-600"
+            hoverBg="gray-700"
+            color="white"
+            borderRadius="md"
+            w={1 / 4}
+            onClick={() => this.props.cbSetDeckList(this.deckList)}
+          >
             OK
-          </button>
-          <button>Clear</button>
-          <button>Delete Cache</button>
+          </x.button>
+          <x.button
+            p={2}
+            bg="gray-600"
+            hoverBg="gray-700"
+            color="white"
+            borderRadius="md"
+            w={1 / 4}
+            onClick={() => this.setState({ stateDeckList: "" })}
+          >
+            Clear
+          </x.button>
+          <x.button
+            p={2}
+            bg="gray-600"
+            hoverBg="gray-700"
+            color="white"
+            borderRadius="md"
+            w={1 / 4}
+          >
+            Delete Cache
+          </x.button>
         </x.div>
       </x.div>
     )
