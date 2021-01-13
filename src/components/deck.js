@@ -186,7 +186,7 @@ class Deck extends React.Component {
         //borderWidth={8}
         //borderStyle="solid"
         //borderColor="red-600"
-        bg="white-500"
+        //bg="blue-500"
       >
         {this.state.stateDatabaseOpened &&
           this.state.stateCardsIDs.map((e, i) => {

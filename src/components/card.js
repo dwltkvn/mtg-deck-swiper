@@ -119,19 +119,19 @@ class Card extends React.Component {
     //const { propMounted, propDefaultCardName, propUserName } = this.props
     const classes = styles
 
-    const duration = 300
+    const duration = 500
 
     const defaultStyle = {
       transition: `all ${duration}ms ease-in-out`,
-      opacity: 0.0,
-      transform: "translate(0)"
+      opacity: 1.0,
+      transform: "translate(0,0)"
     }
 
     const transitionStyles = {
-      entering: { opacity: 1.0, transform: "translate(0)" },
-      entered: { opacity: 1.0, transform: "translate(0)" },
-      exiting: { opacity: 0.0, transform: "translate(-10%)" },
-      exited: { opacity: 0.0, transform: "translate(-10%)" }
+      //entering: { opacity: 1.0, transform: "translate(0,0)" },
+      entered: { opacity: 1.0, transform: "translate(0,0)" },
+      exiting: { opacity: 0.0, transform: "translate(0,-100%)" }
+      //exited: { opacity: 1.0, transform: "translate(0,-100%)" }
     }
 
     return (
@@ -141,6 +141,9 @@ class Card extends React.Component {
         gridRow="1 / 1"
         h={0.99}
         w={0.99}
+        //borderWidth={5}
+        //borderStyle="solid"
+        //borderColor="red-400"
       >
         <Transition
           in={this.props.propDisplayImg && this.state.stateNotClickedYet}
@@ -151,7 +154,7 @@ class Card extends React.Component {
             <x.div
               h={1}
               w={1}
-              //bg="rose-300"
+              //bg="red-300"
               //borderWidth={5}
               //borderStyle="solid"
               //borderColor="yellow-400"
@@ -160,6 +163,7 @@ class Card extends React.Component {
               backgroundRepeat="no-repeat"
               backgroundPosition="center"
               backgroundSize="contain"
+              userSelect="none"
               style={{
                 ...defaultStyle,
                 ...transitionStyles[state]
