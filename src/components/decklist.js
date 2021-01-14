@@ -94,9 +94,7 @@ class DeckList extends React.Component {
     super(props)
     // this.handeEvent = this.handleEvent.bind(this);
     this.onDeckListChange = this.onDeckListChange.bind(this)
-    this.state = {
-      stateDeckList: cardsIDs.join("\n")
-    }
+    this.state = {}
     this.deckList = cardsIDs.join("\n")
   }
 
@@ -119,7 +117,8 @@ class DeckList extends React.Component {
       <x.div h={1} display="flex" flexDirection="column">
         <x.div h={1} p={8}>
           <x.textarea
-            value={this.state.stateDeckList}
+            defaultValue={this.deckList}
+            ref={elem => (this.refTextArea = elem)}
             //style={{ height: "100%", width: "100%", resize: "none" }}
             h={1}
             w={1}
@@ -149,7 +148,7 @@ class DeckList extends React.Component {
             color="white"
             borderRadius="md"
             w={1 / 4}
-            onClick={() => this.setState({ stateDeckList: "" })}
+            onClick={() => (this.refTextArea.value = "")}
           >
             Clear
           </x.button>
