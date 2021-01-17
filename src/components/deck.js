@@ -12,7 +12,7 @@ class Deck extends React.Component {
     // this.handeEvent = this.handleEvent.bind(this);
     this.removeCard = this.removeCard.bind(this)
     this.state = {
-      stateCardsIDs: this.props.propDeckList.split("\n"),
+      stateCardsIDs: this.props.propDeckList?.split("\n"),
       stateDatabaseOpened: false
     }
   }

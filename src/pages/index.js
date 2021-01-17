@@ -3,6 +3,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import DeckList from "../components/decklist"
 import MTGDeck from "../components/deck"
+import DeckSelector from "../components/deckselector"
 
 const styles = {}
 
@@ -22,7 +23,10 @@ class IndexPage extends React.Component {
   componentWillUnmount() {}
 
   setDeckList(deckList) {
-    this.setState({ stateDeckList: deckList, stateStep: 1 })
+    console.log(deckList)
+    this.setState({ stateDeckList: deckList }, () =>
+      this.setState({ stateStep: 2 })
+    )
   }
 
   render() {
@@ -35,13 +39,20 @@ class IndexPage extends React.Component {
       <Layout>
         <SEO title="Home" />
         {this.state.stateStep === 0 && (
-          <DeckList
+          <DeckSelector
             cbSetDeckList={e => {
               this.setDeckList(e)
             }}
           />
         )}
         {this.state.stateStep === 1 && (
+          <DeckList
+            cbSetDeckList={e => {
+              this.setDeckList(e)
+            }}
+          />
+        )}
+        {this.state.stateStep === 2 && (
           <MTGDeck propDeckList={this.state.stateDeckList} />
         )}
       </Layout>
