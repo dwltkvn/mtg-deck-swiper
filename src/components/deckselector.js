@@ -34,18 +34,34 @@ class DeckSelector extends React.Component {
         <DeckBox
           propDeckName="Dimir Nymris"
           propColors="UB"
+          propTempID={0}
           cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
         />
-        <DeckBox propDeckName="Queen Marchesa" propColors="UBR" />
-        <DeckBox propColors="GR" />
+        <DeckBox
+          propDeckName="Queen Marchesa"
+          propColors="UBR"
+          propTempID={1}
+          cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
+        />
+        <DeckBox
+          propDeckName="Massacre Girl"
+          propColors="B"
+          propTempID={2}
+          cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
+        />
 
-        <DeckBox />
-        <DeckBox />
-        <DeckBox />
-
-        <DeckBox />
-        <DeckBox />
-        <DeckBox />
+        <DeckBox
+          propDeckName="Sultai Kadena"
+          propColors="UBG"
+          propTempID={3}
+          cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
+        />
+        <DeckBox
+          propDeckName="Jeskai Elsha"
+          propColors="WUR"
+          propTempID={4}
+          cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
+        />
       </x.div>
     )
   }
