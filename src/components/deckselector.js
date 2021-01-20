@@ -21,6 +21,7 @@ class DeckSelector extends React.Component {
     //const { propMounted, propDefaultCardName, propUserName } = this.props
     const classes = styles
     const elemSize = 16
+    console.log(this.props.propAllDecks.size)
     return (
       <x.div
         display="grid"
@@ -31,37 +32,17 @@ class DeckSelector extends React.Component {
         alignContent="center"
         justifyItems="center"
       >
-        <DeckBox
-          propDeckName="Dimir Nymris"
-          propColors="UB"
-          propTempID={0}
-          cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
-        />
-        <DeckBox
-          propDeckName="Queen Marchesa"
-          propColors="UBR"
-          propTempID={1}
-          cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
-        />
-        <DeckBox
-          propDeckName="Massacre Girl"
-          propColors="B"
-          propTempID={2}
-          cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
-        />
-
-        <DeckBox
-          propDeckName="Sultai Kadena"
-          propColors="UBG"
-          propTempID={3}
-          cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
-        />
-        <DeckBox
-          propDeckName="Jeskai Elsha"
-          propColors="WUR"
-          propTempID={4}
-          cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
-        />
+        <x.div onClick={() => this.props.cbGoToDeckEditor()}>+</x.div>
+        {this.props.propAllDecks?.map((deck, i) => (
+          <DeckBox
+            key={i}
+            propDeckName="Deck"
+            propColors="UB"
+            propDeckList={deck}
+            propTempID={0}
+            cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
+          />
+        ))}
       </x.div>
     )
   }

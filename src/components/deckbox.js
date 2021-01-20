@@ -477,7 +477,8 @@ class DeckBox extends React.Component {
         onClick={() => {
           if (this.props.cbOnDeckClicked)
             this.props.cbOnDeckClicked(
-              cardsIDs[this.props.propTempID].join("\n")
+              //cardsIDs[this.props.propTempID].join("\n")
+              this.props.propDeckList
             )
         }}
       >

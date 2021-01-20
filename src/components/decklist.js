@@ -89,7 +89,7 @@ const cardsIDs = [
 
 const styles = {}
 
-class DeckList extends React.Component {
+class DeckEditor extends React.Component {
   constructor(props) {
     super(props)
     // this.handeEvent = this.handleEvent.bind(this);
@@ -137,7 +137,7 @@ class DeckList extends React.Component {
             color="white"
             borderRadius="md"
             w={1 / 4}
-            onClick={() => this.props.cbSetDeckList(this.deckList)}
+            onClick={() => this.props.cbAddDeckList(this.deckList)}
           >
             OK
           </x.button>
@@ -168,4 +168,4 @@ class DeckList extends React.Component {
   }
 }
 
-export default DeckList
+export default DeckEditor
