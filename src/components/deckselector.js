@@ -27,7 +27,8 @@ class DeckSelector extends React.Component {
         display="grid"
         gridTemplateColumns={3}
         gap={4}
-        minHeight={1}
+        p={2}
+        //minHeight={1}
         //justifyContent="center"
         alignContent="center"
         justifyItems="center"
