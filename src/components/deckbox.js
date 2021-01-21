@@ -1,5 +1,6 @@
 import React from "react"
 import { x } from "@xstyled/styled-components"
+import * as idb from "idb"
 
 const styles = {}
 
@@ -439,6 +440,7 @@ class DeckBox extends React.Component {
   constructor(props) {
     super(props)
     // this.handeEvent = this.handleEvent.bind(this);
+    this.clearDeckListCache = this.clearDeckListCache.bind(this)
 
     this.state = {}
   }
@@ -447,6 +449,39 @@ class DeckBox extends React.Component {
 
   componentWillUnmount() {}
 
+  clearDeckListCache() {
+    console.log("clear cache")
+    this.database = idb.openDB("scryfallCache", 1, {
+      upgrade(db, oldVersion, newVersion, transaction) {
+        console.log("create Scryfall Cache DB")
+        db.createObjectStore("books", { keyPath: "id" })
+      },
+      blocked() {
+        // …
+      },
+      blocking() {
+        // …
+      },
+      terminated() {
+        // …
+      }
+    })
+
+    // state when db is opened
+    this.database
+      .then(db => {
+        const tx = db.transaction("books", "readwrite")
+        var store = tx.objectStore("books")
+
+        this.props.propDeckList.split("\n").forEach(e => store.delete(e))
+        //store.delete("Baleful Strix")
+        //store.delete("Counterspell")
+        return tx.complete
+      })
+      .then(() => {
+        console.log("removed item to the store os ")
+      })
+  }
   render() {
     //const {classes} = this.props;
     //const {myState} = this.state;
@@ -481,15 +516,19 @@ class DeckBox extends React.Component {
         borderRadius="md"
         display="flex"
         flexDirection="column"
-        onClick={() => {
-          if (this.props.cbOnDeckClicked)
-            this.props.cbOnDeckClicked(
-              //cardsIDs[this.props.propTempID].join("\n")
-              this.props.propDeckList
-            )
-        }}
       >
-        <x.div flexGrow={1}>{this.props.propDeckName}</x.div>
+        <x.div
+          flexGrow={1}
+          onClick={() => {
+            if (this.props.cbOnDeckClicked)
+              this.props.cbOnDeckClicked(
+                //cardsIDs[this.props.propTempID].join("\n")
+                this.props.propDeckList
+              )
+          }}
+        >
+          {this.props.propDeckName}
+        </x.div>
         <x.div display="flex" p={1}>
           <x.button
             p={1}
@@ -510,6 +549,7 @@ class DeckBox extends React.Component {
             bg="gray-600-a25"
             w={1 / 2}
             textOverflow="ellipsis"
+            onClick={() => this.clearDeckListCache()}
           >
             Clear
           </x.button>

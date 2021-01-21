@@ -63,11 +63,11 @@ class Card extends React.Component {
           this.img.src = this.objectURL // will trigger imgLoaded()
           this.setState({ stateLoadedFromCache: true })
         } else {
-          console.log(
+          /*console.log(
             `https://api.scryfall.com/cards/named?exact=${encodeURI(
               this.name
             )}&format=image&version=normal`
-          )
+          )*/
           fetch(
             `https://api.scryfall.com/cards/named?exact=${encodeURI(
               this.name

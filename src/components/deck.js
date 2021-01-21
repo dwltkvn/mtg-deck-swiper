@@ -80,7 +80,7 @@ class Deck extends React.Component {
     let stateCardsIDs = this.state.stateCardsIDs
     stateCardsIDs.pop()
     this.setState({ stateCardsIDs })
-    console.log(stateCardsIDs.length)
+    //console.log(stateCardsIDs.length)
   }
 
   render() {
