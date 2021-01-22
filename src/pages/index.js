@@ -13,6 +13,7 @@ class IndexPage extends React.Component {
     // this.handeEvent = this.handleEvent.bind(this);
     this.setDeckList = this.setDeckList.bind(this)
     this.addDeckList = this.addDeckList.bind(this)
+    this.removeDeckList = this.removeDeckList.bind(this)
 
     this.state = {
       stateStep: 0,
@@ -31,10 +32,10 @@ class IndexPage extends React.Component {
   componentWillUnmount() {}
 
   addDeckList(deckList) {
-    console.log(deckList)
+    //console.log(deckList)
     let stateAllDecks = this.state.stateAllDecks
     stateAllDecks.push(deckList)
-    console.log(stateAllDecks)
+    //console.log(stateAllDecks)
     this.setState({ stateAllDecks }, () => {
       localStorage.setItem("allDecks", JSON.stringify(stateAllDecks))
       this.setState({ stateStep: 0 })
@@ -42,10 +43,18 @@ class IndexPage extends React.Component {
   }
 
   setDeckList(deckList) {
-    console.log(deckList)
+    //console.log(deckList)
     this.setState({ stateDeckList: deckList }, () =>
       this.setState({ stateStep: 2 })
     )
+  }
+
+  removeDeckList(deckListId) {
+    let stateAllDecks = this.state.stateAllDecks
+    stateAllDecks.splice(deckListId, 1)
+    this.setState({ stateAllDecks }, () => {
+      localStorage.setItem("allDecks", JSON.stringify(stateAllDecks))
+    })
   }
 
   render() {
@@ -64,6 +73,7 @@ class IndexPage extends React.Component {
             cbSetDeckList={e => {
               this.setDeckList(e)
             }}
+            cbRemoveDeckList={e => this.removeDeckList(e)}
           />
         )}
         {this.state.stateStep === 1 && (

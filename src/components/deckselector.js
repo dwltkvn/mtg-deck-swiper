@@ -40,8 +40,9 @@ class DeckSelector extends React.Component {
             propDeckName="Deck"
             propColors="UB"
             propDeckList={deck}
-            propTempID={0}
+            propDeckID={i}
             cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
+            cbRemoveDeckBox={e => this.props.cbRemoveDeckList(e)}
           />
         ))}
       </x.div>
