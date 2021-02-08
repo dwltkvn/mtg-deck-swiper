@@ -41,7 +41,7 @@ class DeckBox extends React.Component {
         const tx = db.transaction("books", "readwrite")
         var store = tx.objectStore("books")
 
-        this.props.propDeckList.split("\n").forEach(e => store.delete(e))
+        this.props.propDeckList.forEach(e => store.delete(e))
         //store.delete("Baleful Strix")
         //store.delete("Counterspell")
         return tx.complete

@@ -18,7 +18,7 @@ class IndexPage extends React.Component {
     this.state = {
       stateStep: 0,
       stateDeckList: "",
-      stateAllDecks: []
+      stateAllDecks: {}
     }
   }
 
@@ -31,10 +31,14 @@ class IndexPage extends React.Component {
 
   componentWillUnmount() {}
 
-  addDeckList(deckList) {
+  addDeckList(deckList, deckName, deckColor) {
     //console.log(deckList)
     let stateAllDecks = this.state.stateAllDecks
-    stateAllDecks.push(deckList)
+
+    stateAllDecks[deckName] = {}
+    stateAllDecks[deckName].decklist = deckList.split("\n")
+    stateAllDecks[deckName].deckcolor = deckColor
+
     //console.log(stateAllDecks)
     this.setState({ stateAllDecks }, () => {
       localStorage.setItem("allDecks", JSON.stringify(stateAllDecks))
@@ -50,8 +54,13 @@ class IndexPage extends React.Component {
   }
 
   removeDeckList(deckListId) {
+    console.log(deckListId)
     let stateAllDecks = this.state.stateAllDecks
-    stateAllDecks.splice(deckListId, 1)
+    //stateAllDecks.splice(deckListId, 1)
+    //stateAllDecks[deckListId] = {}
+    //stateAllDecks[deckListId] = null
+    delete stateAllDecks[deckListId]
+
     this.setState({ stateAllDecks }, () => {
       localStorage.setItem("allDecks", JSON.stringify(stateAllDecks))
     })
@@ -78,8 +87,8 @@ class IndexPage extends React.Component {
         )}
         {this.state.stateStep === 1 && (
           <DeckEditor
-            cbAddDeckList={e => {
-              this.addDeckList(e)
+            cbAddDeckList={(decklist, deckname, deckcolor) => {
+              this.addDeckList(decklist, deckname, deckcolor)
             }}
           />
         )}

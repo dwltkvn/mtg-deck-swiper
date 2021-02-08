@@ -137,7 +137,9 @@ class DeckEditor extends React.Component {
             color="white"
             borderRadius="md"
             w={1 / 4}
-            onClick={() => this.props.cbAddDeckList(this.deckList)}
+            onClick={() =>
+              this.props.cbAddDeckList(this.deckList, "deckName", "RB")
+            }
           >
             OK
           </x.button>
@@ -151,16 +153,6 @@ class DeckEditor extends React.Component {
             onClick={() => (this.refTextArea.value = "")}
           >
             Clear
-          </x.button>
-          <x.button
-            p={2}
-            bg="gray-600"
-            hoverBg="gray-700"
-            color="white"
-            borderRadius="md"
-            w={1 / 4}
-          >
-            Delete Cache
           </x.button>
         </x.div>
       </x.div>

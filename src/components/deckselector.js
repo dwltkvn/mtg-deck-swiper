@@ -21,7 +21,7 @@ class DeckSelector extends React.Component {
     //const { propMounted, propDefaultCardName, propUserName } = this.props
     const classes = styles
     const elemSize = 16
-    console.log(this.props.propAllDecks.size)
+
     return (
       <x.div
         display="grid"
@@ -34,17 +34,19 @@ class DeckSelector extends React.Component {
         justifyItems="center"
       >
         <x.div onClick={() => this.props.cbGoToDeckEditor()}>+</x.div>
-        {this.props.propAllDecks?.map((deck, i) => (
-          <DeckBox
-            key={i}
-            propDeckName="Deck"
-            propColors="UB"
-            propDeckList={deck}
-            propDeckID={i}
-            cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
-            cbRemoveDeckBox={e => this.props.cbRemoveDeckList(e)}
-          />
-        ))}
+        {Object.keys(this.props.propAllDecks).map((deckKey, i) => {
+          return (
+            <DeckBox
+              key={i}
+              propDeckName={deckKey}
+              propColors={this.props.propAllDecks[deckKey].deckcolor}
+              propDeckList={this.props.propAllDecks[deckKey].decklist}
+              propDeckID={deckKey}
+              cbOnDeckClicked={e => this.props.cbSetDeckList(e)}
+              cbRemoveDeckBox={e => this.props.cbRemoveDeckList(e)}
+            />
+          )
+        })}
       </x.div>
     )
   }

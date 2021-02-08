@@ -12,7 +12,7 @@ class Deck extends React.Component {
     // this.handeEvent = this.handleEvent.bind(this);
     this.removeCard = this.removeCard.bind(this)
     this.state = {
-      stateCardsIDs: this.props.propDeckList?.split("\n"),
+      stateCardsIDs: this.props.propDeckList,
       stateDatabaseOpened: false
     }
   }
@@ -21,7 +21,7 @@ class Deck extends React.Component {
     console.log("well mounted")
 
     this.setState({
-      stateCardsIDs: this.shuffle(this.props.propDeckList.split("\n"))
+      stateCardsIDs: this.shuffle(this.props.propDeckList)
     })
     if (!("indexedDB" in window)) {
       console.log("This browser doesn't support IndexedDB")
