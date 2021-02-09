@@ -33,7 +33,19 @@ class DeckSelector extends React.Component {
         alignContent="center"
         justifyItems="center"
       >
-        <x.div onClick={() => this.props.cbGoToDeckEditor()}>+</x.div>
+        <x.div
+          borderRadius="full"
+          border={2}
+          borderColor="black-600"
+          onClick={() => this.props.cbGoToDeckEditor()}
+          h={24}
+          w={24}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          +
+        </x.div>
         {Object.keys(this.props.propAllDecks).map((deckKey, i) => {
           return (
             <DeckBox

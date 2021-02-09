@@ -98,13 +98,13 @@ class DeckBox extends React.Component {
           {this.props.propDeckName}
         </x.div>
         <x.div display="flex" p={1}>
+          <x.div flexGrow={1} />
           <x.button
             p={1}
             border={1}
             borderColor="gray-900"
             borderRadius="sm"
-            bg="gray-600-a75"
-            w={1 / 2}
+            bg="gray-600-a50"
             textOverflow="ellipsis"
             onClick={() => {
               this.clearDeckListCache()
@@ -112,18 +112,6 @@ class DeckBox extends React.Component {
             }}
           >
             Remove
-          </x.button>
-          <x.button
-            p={1}
-            border={1}
-            borderColor="gray-900"
-            borderRadius="sm"
-            bg="gray-600-a25"
-            w={1 / 2}
-            textOverflow="ellipsis"
-            onClick={() => this.clearDeckListCache()}
-          >
-            Clear
           </x.button>
         </x.div>
       </x.div>

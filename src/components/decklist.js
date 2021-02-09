@@ -94,8 +94,10 @@ class DeckEditor extends React.Component {
     super(props)
     // this.handeEvent = this.handleEvent.bind(this);
     this.onDeckListChange = this.onDeckListChange.bind(this)
+    this.onDeckNameChange = this.onDeckNameChange.bind(this)
     this.state = {}
     this.deckList = cardsIDs.join("\n")
+    this.deckName = ""
   }
 
   componentDidMount() {}
@@ -107,6 +109,10 @@ class DeckEditor extends React.Component {
     this.deckList = this.deckList.replaceAll("1 ", "")
   }
 
+  onDeckNameChange(event) {
+    this.deckName = event.target.value
+  }
+
   render() {
     //const {classes} = this.props;
     //const {myState} = this.state;
@@ -115,7 +121,17 @@ class DeckEditor extends React.Component {
 
     return (
       <x.div h={1} display="flex" flexDirection="column">
-        <x.div h={1} p={8}>
+        <x.div px={8} py={1} display="flex">
+          <x.input
+            type="text"
+            border={2}
+            borderColor="black-600"
+            borderRadius="md"
+            flexGrow={1}
+            onChange={this.onDeckNameChange}
+          />
+        </x.div>
+        <x.div h={1} px={8} py={1}>
           <x.textarea
             defaultValue={this.deckList}
             ref={elem => (this.refTextArea = elem)}
@@ -138,7 +154,7 @@ class DeckEditor extends React.Component {
             borderRadius="md"
             w={1 / 4}
             onClick={() =>
-              this.props.cbAddDeckList(this.deckList, "deckName", "RB")
+              this.props.cbAddDeckList(this.deckList, this.deckName, "B")
             }
           >
             OK
